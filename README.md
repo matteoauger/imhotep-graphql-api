@@ -1,4 +1,7 @@
-# Imhotep GraphQL API
+[![pipeline status](https://www-apps.univ-lehavre.fr/forge/imhotep/imhotep-graphql-api/badges/master/pipeline.svg)](https://www-apps.univ-lehavre.fr/forge/imhotep/imhotep-graphql-api/commits/master) 
+[![coverage report](https://www-apps.univ-lehavre.fr/forge/imhotep/imhotep-graphql-api/badges/master/coverage.svg)](https://www-apps.univ-lehavre.fr/forge/imhotep/imhotep-graphql-api/commits/master)
+
+# Imhotep GraphQL API 
 
 ## Projet M2 IWOCS GraphQL Lab
 
