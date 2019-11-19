@@ -1,12 +1,21 @@
 {
-  "name": "demo",
-  "version": "0.0.0",
+  "name": "imhotep-graphql-api",
+  "version": "1.0.0",
+  "description": "API de l'agence immobilière Imhotep utilisant GraphQL",
+  "main": "./bin/www",
   "private": true,
+
   "scripts": {
     "start": "node ./bin/www",
-    "test": "mocha",
+    "test": "mocha test/*",
     "ci": "nyc --reporter=text mocha test/*"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://www-apps.univ-lehavre.fr/forge/imhotep/imhotep-graphql-api.git"
+  },
+  "author": "Matteo Auger & Yoann Eichelberger",
+  "license": "ISC",
   "dependencies": {
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
