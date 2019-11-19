@@ -1,11 +1,12 @@
-### Node Express template project
+# Imhotep GraphQL API
 
-This project is based on a GitLab [Project Template](https://docs.gitlab.com/ee/gitlab-basics/create-project.html).
+## Projet M2 IWOCS GraphQL Lab
 
-Improvements can be proposed in the [original project](https://gitlab.com/gitlab-org/project-templates/express).
+[URL du projet](https://pigne.org/teaching/webdev2/lab/GraphQLLab)
 
-### CI/CD with Auto DevOps
 
-This template is compatible with [Auto DevOps](https://docs.gitlab.com/ee/topics/autodevops/).
+Nom           | Prénom | Numéro étudiant | Rôle 
+--------------|--------|-----------------|-------------
+AUGER         | Mattéo | am150982        | Développeur
+EICHELBERGER  | Yoann  | ey143326        | Développeur
 
-If Auto DevOps is not already enabled for this project, you can [turn it on](https://docs.gitlab.com/ee/topics/autodevops/#enabling-auto-devops) in the project settings.
