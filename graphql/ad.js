@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { buildSchema } = require('graphql');
-const AdService = require('../services/AdService');
-const AdDataService = require('../services/AdDataService');
+const AdService = require('../services/ad-service');
+const AdDataService = require('../services/ad-data-service');
 const path = require('path');
 
 
@@ -9,29 +9,16 @@ const path = require('path');
  * Ad Query handler
  */
 class AdQueryHandler {
-
     constructor() {
         this.adService = new AdService();
         this.adDataService = new AdDataService();
     }
 
     async ad(data) {
-        const params = this.adDataService.prepareData(data);
+        const params = this.adDataService.prepareDataForDb(data);
         const ads = await this.adService.getAd(params);
 
-        return this.adDataService.outputData(ads);
-    }
-
-    adByTypes(types) {
-        console.log(data);
-        return {};
-        //return AdService.getByType(types);
-    }
-
-    adByStatuses(transactionStatuses) {
-        console.log(data);
-        return {};
-        //return AdService.getByStatuses(transactionStatuses);
+        return this.adDataService.prepareDataForGql(ads);
     }
 
     adCheaperThan(price, inclusive) {

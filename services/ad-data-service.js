@@ -1,8 +1,15 @@
-const { Type, TransactionStatus, PublishStatus } = require('../models/Ad');
+const { Type, TransactionStatus, PublishStatus } = require('../models/ad');
 const { getKeyByValue } = require('../utils/object-util');
 
+/**
+ * Service formatting the ad data to fit the graphql definition or the mongodb definition.
+ */
 class AdDataService {
-    prepareData(data) {
+    /**
+     * Prepares the given query data to match mongoose definition.
+     * @param {any} data graphql query input
+     */
+    prepareDataForDb(data) {
         const dataCpy = Object.assign({}, data);
 
         if (data.type) {
@@ -14,22 +21,33 @@ class AdDataService {
 
         if (data.transactionStatus) {
             if (!TransactionStatus[data.transactionStatus])
-            throw Error(`${data.transactionStatus} is not a valid transaction status. This problem is related to the database, please contact an administrator.`);
+                throw Error(`${data.transactionStatus} is not a valid transaction status. This problem is related to the database, please contact an administrator.`);
 
             dataCpy.transaction_status = TransactionStatus[data.transactionStatus];
+            delete dataCpy.transactionStatus;
         }
 
         if (data.publishStatus) {
             if (!PublishStatus[data.publishStatus])
-            throw Error(`${data.publishStatus} is not a valid publish status. This problem is related to the database, please contact an administrator.`);
+                throw Error(`${data.publishStatus} is not a valid publish status. This problem is related to the database, please contact an administrator.`);
 
             dataCpy.publish_status = PublishStatus[dataCpy.publishStatus];
+            delete dataCpy.publishStatus;
+        }
+
+        if (data.id) {
+            dataCpy._id = data.id;
+            delete dataCpy.id;
         }
 
         return dataCpy;
     }
 
-    outputData(ads) {
+    /**
+     * Formats the data to match the GraphQL definition
+     * @param {any} ads database ad array
+     */
+    prepareDataForGql(ads) {
         const formatedAds = new Array();
 
         ads.forEach(ad => {
