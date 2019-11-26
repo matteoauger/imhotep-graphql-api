@@ -135,4 +135,148 @@ describe('GraphQL Ad schema & handlers', () => {
             assert.equal(resultAd.publishStatus, expectedPublishStatus);
         });
     });
+
+    describe('Ads cheaper than', () => {
+        it('should return nothing', async () => {
+            const query = `{
+                adCheaperThan(price: 1000, inclusive: true) {
+                  id
+                  title,
+                  type,
+                  publishStatus,
+                  transactionStatus,
+                  price,
+                  description
+                }
+              }`;
+
+            const { data } = await graphql(AdGQL.schema, query, AdGQL.root);
+
+            assert.equal(data.adCheaperThan.length, 0);
+        });
+
+        it('should return the items cheaper than 200€', async () => {
+            const ads = [
+                {title: "test", description: "test", type: "Vente", price: 200, transaction_status: "Disponible", publish_status: "Publiée"},
+                {title: "test2", description: "test2", type: "Location", price: 1000, transaction_status: "Non disponible", publish_status: "Non publiée"}
+            ];
+
+            await Ad.insertMany(ads);
+
+            const query = `{
+                adCheaperThan(price: 200) {
+                  id
+                  title,
+                  type,
+                  publishStatus,
+                  transactionStatus,
+                  price,
+                  description
+                }
+              }`;
+
+            const { data } = await graphql(AdGQL.schema, query, AdGQL.root);
+
+            assert.equal(data.adCheaperThan.length, 0);
+        });
+
+        it('should return the items cheaper than 200€ (inclusive)', async () => {
+            const ads = [
+                {title: "test", description: "test", type: "Vente", price: 200, transaction_status: "Disponible", publish_status: "Publiée"},
+                {title: "test2", description: "test2", type: "Location", price: 1000, transaction_status: "Non disponible", publish_status: "Non publiée"}
+            ];
+
+            await Ad.insertMany(ads);
+
+            const query = `{
+                adCheaperThan(price: 200, inclusive: true) {
+                  id
+                  title,
+                  type,
+                  publishStatus,
+                  transactionStatus,
+                  price,
+                  description
+                }
+              }`;
+
+            const { data } = await graphql(AdGQL.schema, query, AdGQL.root);
+            assert.equal(data.adCheaperThan.length, 1);
+            assert.equal(data.adCheaperThan[0].title, ads[0].title);
+            assert.equal(data.adCheaperThan[0].description, ads[0].description);
+        });
+    });
+
+    describe('Ad more expensive than', () => {
+        it('should return nothing', async () => {
+            const query = `{
+                adMoreExpensiveThan(price: 1000, inclusive: true) {
+                  id
+                  title,
+                  type,
+                  publishStatus,
+                  transactionStatus,
+                  price,
+                  description
+                }
+              }`;
+
+            const { data } = await graphql(AdGQL.schema, query, AdGQL.root);
+
+            assert.equal(data.adMoreExpensiveThan.length, 0);
+        });
+
+        it('should return the items more expensive than 200€', async () => {
+            const ads = [
+                {title: "test", description: "test", type: "Vente", price: 200, transaction_status: "Disponible", publish_status: "Publiée"},
+                {title: "test2", description: "test2", type: "Location", price: 1000, transaction_status: "Non disponible", publish_status: "Non publiée"}
+            ];
+
+            await Ad.insertMany(ads);
+
+            const query = `{
+                adMoreExpensiveThan(price: 200) {
+                  id
+                  title,
+                  type,
+                  publishStatus,
+                  transactionStatus,
+                  price,
+                  description
+                }
+              }`;
+
+            const { data } = await graphql(AdGQL.schema, query, AdGQL.root);
+
+            assert.equal(data.adMoreExpensiveThan.length, 1);
+        });
+
+        it('should return the items more expensive than 200€ (inclusive)', async () => {
+            const ads = [
+                {title: "test", description: "test", type: "Vente", price: 200, transaction_status: "Disponible", publish_status: "Publiée"},
+                {title: "test2", description: "test2", type: "Location", price: 1000, transaction_status: "Non disponible", publish_status: "Non publiée"}
+            ];
+
+            await Ad.insertMany(ads);
+
+            const query = `{
+                adMoreExpensiveThan(price: 200, inclusive: true) {
+                  id
+                  title,
+                  type,
+                  publishStatus,
+                  transactionStatus,
+                  price,
+                  description
+                }
+              }`;
+
+            const { data } = await graphql(AdGQL.schema, query, AdGQL.root);
+            assert.equal(data.adMoreExpensiveThan.length, 2);
+            assert.equal(data.adMoreExpensiveThan[0].title, ads[0].title);
+            assert.equal(data.adMoreExpensiveThan[0].description, ads[0].description);
+            assert.equal(data.adMoreExpensiveThan[1].title, ads[1].title);
+            assert.equal(data.adMoreExpensiveThan[1].description, ads[1].description);
+        });
+    });
 });
