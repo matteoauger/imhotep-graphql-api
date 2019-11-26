@@ -4,7 +4,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
 const graphqlHTTP = require('express-graphql');
-const AdGraphQL = require('./graphql/Ad');
+const AdGraphQL = require('./graphql/ad');
 
 const app = express();
 
