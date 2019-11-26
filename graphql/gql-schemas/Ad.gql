@@ -40,12 +40,6 @@ type Query {
     # price price of the ad 
     ad(id: ID, title: String, description: String, type: Type, transactionStatus: TransactionStatus, publishStatus: PublishStatus, price: Int): [Ad]
 
-    # Queries the ads by the given types
-    adByTypes(types: [Type]!): [Ad]
-
-    # Queries the ads owning the given statuses
-    adByStatuses(transactionStatuses: [TransactionStatus]!): [Ad]
-
     # Queries the ads cheaper than the given price
     # If the inclusive param is set to true, allows the ad price to be cheaper or equal than the given price
     adCheaperThan(price: Int!, inclusive: Boolean = false): [Ad]
