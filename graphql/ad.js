@@ -21,16 +21,14 @@ class AdQueryHandler {
         return this.adDataService.prepareDataForGql(ads);
     }
 
-    adCheaperThan(price, inclusive) {
-        console.log(data);
-        return {};
-        //return AdService.getAdCheaperThan(price, inclusive)
+    async adCheaperThan({ price, inclusive }) {
+        const ads = await this.adService.getAdsCheaperThan(price, inclusive)
+        return this.adDataService.prepareDataForGql(ads);
     }
     
-    adMoreExpensiveThan(price, inclusive) {
-        console.log(data);
-        return {};
-        //return AdService.getAdMoreEspensiveThan(price, inclusive)
+    async adMoreExpensiveThan({ price, inclusive }) {
+        const ads = await this.adService.getAdsMoreExpensiveThan(price, inclusive)
+        return this.adDataService.prepareDataForGql(ads);
     }
 }
 
