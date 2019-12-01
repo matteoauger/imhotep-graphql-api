@@ -29,6 +29,30 @@ class AdQueryHandler {
     async adMoreExpensiveThan({ price, inclusive }) {
         const ads = await this.adService.getAdsMoreExpensiveThan(price, inclusive)
         return this.adDataService.prepareDataForGql(ads);
+    }   
+
+    async insertAd(data) {
+        const params = this.adDataService.prepareDataForDb(data);
+        const newAd = await this.adService.insert(params);
+        const result = this.adDataService.prepareDataForGql([ newAd ]);
+
+        return result[0];
+    }
+
+    async updateAd(data) {
+        const params = this.adDataService.prepareDataForDb(data);
+        const id = params._id;
+        delete params._id;
+
+        const updatedAd = await this.adService.update(id, params);
+
+        const result =  this.adDataService.prepareDataForGql([ updatedAd ]);
+        return result[0];
+    }
+
+    async deleteAd({ id }) {
+        const response = await this.adService.delete(id);
+        return response.ok  === 1 && response.deletedCount > 0;
     }
 }
 
@@ -40,6 +64,6 @@ const schemaTxt = fs.readFileSync(schemaPath,  {encoding: 'utf-8'});
 var schema = buildSchema(schemaTxt);
 
 module.exports = {
-    schema: schema, 
+    schema: schema,
     root: new AdQueryHandler()
 }
