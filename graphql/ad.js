@@ -44,9 +44,10 @@ class AdQueryHandler {
         const id = params._id;
         delete params._id;
 
-        const updatedAd = await this.adService.update(id, params);
+        await this.adService.update(id, params);
+        const updatedAd = await this.adService.getAd({_id: id});
 
-        const result =  this.adDataService.prepareDataForGql([ updatedAd ]);
+        const result =  this.adDataService.prepareDataForGql( updatedAd );
         return result[0];
     }
 
