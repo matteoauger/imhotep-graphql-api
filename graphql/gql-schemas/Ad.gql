@@ -1,0 +1,82 @@
+# Ad type
+# Represents a real estate ad
+type Ad {
+    id: ID!
+    title: String!
+    description: String!
+    price: Int!
+    type: Type!
+    transactionStatus: TransactionStatus!
+    publishStatus: PublishStatus!
+}
+
+# Transaction statuses
+enum TransactionStatus {
+    AVAILABLE
+    NOT_AVAILABLE
+}
+
+# Publish statuses
+enum PublishStatus {
+    PUBLISHED
+    UNPUBLISHED
+}
+
+# Types
+enum Type {
+    SALE
+    RENTAL
+}
+
+# Ad query type
+type Query {
+    # Queries the ads with the given field values 
+    # id unique id of the ad (database stored id)
+    # title title of the ad
+    # description description of the ad
+    # type type of the ad
+    # transactionStatus transaction status of the ad
+    # publishStatus publication status of the ad
+    # price price of the ad 
+    ad(id: ID, title: String, description: String, type: Type, transactionStatus: TransactionStatus, publishStatus: PublishStatus, price: Int): [Ad]
+
+    # Queries the ads cheaper than the given price
+    # If the inclusive param is set to true, allows the ad price to be cheaper or equal than the given price
+    adCheaperThan(price: Int!, inclusive: Boolean = false): [Ad]
+    
+    # Queries the ads more expensive than the given price
+    # If the inclusive param is set to true, allows the ad price to be more expensive or equal than the given price
+    adMoreExpensiveThan(price: Int!, inclusive: Boolean = false): [Ad]
+}
+
+# Ad mutation
+type Mutation {
+    # Inserts an ad
+    # title title of the ad
+    # description description of the ad
+    # type type of the ad
+    # transactionStatus transaction status of the ad
+    # publishStatus publish status of the ad
+    # price price of the ad
+    insertAd(title: String!, description: String!, type: Type!, transactionStatus: TransactionStatus!, publishStatus: PublishStatus!, price: Int!): Ad
+
+    # Updates an ad
+    # title title of the ad
+    # description description of the ad
+    # type type of the ad
+    # transactionStatus transaction status of the ad
+    # publishStatus publish status of the ad
+    # price price of the ad
+    updateAd(id: ID!, title: String, description: String, type: Type, transactionStatus: TransactionStatus, publishStatus: PublishStatus, price: Int): Ad
+    
+    # Deletes an ad
+    # id id of the ad to delete
+    # return whether the ad was successfully deleted
+    deleteAd(id: ID!): Boolean
+}
+
+# Ad schema
+schema {
+    query: Query
+    mutation: Mutation
+}

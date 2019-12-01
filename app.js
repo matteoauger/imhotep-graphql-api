@@ -1,19 +1,27 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-var indexRouter = require('./routes/index');
+const graphqlHTTP = require('express-graphql');
+const AdGraphQL = require('./graphql/ad');
 
-var app = express();
+const app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use('/', indexRouter);
+// setting up graphql ad schema
+app.use(
+  '/ads',
+  graphqlHTTP({
+    schema: AdGraphQL.schema,
+    rootValue: AdGraphQL.root,
+    graphiql: true,
+  }),
+);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
