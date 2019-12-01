@@ -10,7 +10,7 @@ type Ad {
     publishStatus: PublishStatus!
 }
 
-# Transaction statuses é&
+# Transaction statuses
 enum TransactionStatus {
     AVAILABLE
     NOT_AVAILABLE
@@ -49,7 +49,34 @@ type Query {
     adMoreExpensiveThan(price: Int!, inclusive: Boolean = false): [Ad]
 }
 
+# Ad mutation
+type Mutation {
+    # Inserts an ad
+    # title title of the ad
+    # description description of the ad
+    # type type of the ad
+    # transactionStatus transaction status of the ad
+    # publishStatus publish status of the ad
+    # price price of the ad
+    insertAd(title: String!, description: String!, type: Type!, transactionStatus: TransactionStatus!, publishStatus: PublishStatus!, price: Int!): Ad
+
+    # Updates an ad
+    # title title of the ad
+    # description description of the ad
+    # type type of the ad
+    # transactionStatus transaction status of the ad
+    # publishStatus publish status of the ad
+    # price price of the ad
+    updateAd(id: ID!, title: String, description: String, type: Type, transactionStatus: TransactionStatus, publishStatus: PublishStatus, price: Int): Ad
+    
+    # Deletes an ad
+    # id id of the ad to delete
+    # return whether the ad was successfully deleted
+    deleteAd(id: ID!): Boolean
+}
+
 # Ad schema
 schema {
     query: Query
+    mutation: Mutation
 }
