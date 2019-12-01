@@ -30,7 +30,7 @@ class AdService {
     }
 
     update(id, data) {
-        return Ad.findOneAndUpdate({_id: id}, data);
+        return Ad.updateOne({_id: id}, data);
     }
 
     delete(id) {
