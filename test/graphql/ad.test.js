@@ -279,4 +279,127 @@ describe('GraphQL Ad schema & handlers', () => {
             assert.equal(data.adMoreExpensiveThan[1].description, ads[1].description);
         });
     });
+
+    describe('Ad insert', () => {
+        it('should not insert successfully', async () => {
+            const query = `mutation {
+                insertAd(description: "test") {
+                    id
+                }
+            }`;
+
+            const { errors } = await graphql(AdGQL.schema, query, AdGQL.root);
+
+            assert.notEqual(errors.length, 0);
+        });
+
+        it('should insert correctly', async () => {
+            const query = `mutation {
+                insertAd(title: "test", description: "test", type: SALE, publishStatus: PUBLISHED, price: 1000, transactionStatus: AVAILABLE) {
+                    id, 
+                    title, 
+                    type,
+                    publishStatus,
+                    transactionStatus,
+                    description,
+                    price
+                }
+            }`;
+
+            const { data } = await graphql(AdGQL.schema, query, AdGQL.root);
+
+            const insertedAd = await Ad.findOne({title: "test"});
+            assert.equal(data.insertAd.id, insertedAd._id);
+            assert.equal(data.insertAd.title, insertedAd.title);
+            assert.equal(data.insertAd.description, insertedAd.description);
+            assert.equal(data.insertAd.publishStatus, "PUBLISHED");
+            assert.equal(data.insertAd.transactionStatus, "AVAILABLE");
+            assert.equal(data.insertAd.price, insertedAd.price);
+        });
+    });
+
+    describe('Ad update', () => {
+        const ad = {
+            title: "test",
+            description: "test",
+            price: 109,
+            publish_status: "Non publiée",
+            type: "Location",
+            transaction_status: "Disponible"
+        };
+
+        beforeEach(async () => {
+            await Ad.create(ad);
+        });
+
+        it('should not update', async () => {
+
+            const query = `mutation {
+                updateAd(id: "00000000", title: "test2") {
+                    title
+                }
+            }`;
+
+            const { errors } = await graphql(AdGQL.schema, query, AdGQL.root);
+
+            assert.notEqual(errors.length, 0);
+        });
+
+        it('should update', async () => {
+
+            const insertedAd = await Ad.findOne({title: ad.title});
+
+            const query = `mutation {
+                updateAd(id: "${insertedAd._id}", title: "test2") {
+                    title,
+                    description,
+                    publishStatus,
+                    price
+                }
+            }`;
+
+            const { data } = await graphql(AdGQL.schema, query, AdGQL.root);
+
+            assert.equal("test2", data.updateAd.title);
+            assert.equal(ad.description, data.updateAd.description);
+            assert.equal(ad.price, data.updateAd.price);
+            assert.equal("UNPUBLISHED", data.updateAd.publishStatus);
+        });
+    });
+
+    describe('Ad removal', () => {
+        const ad = {
+            title: "test",
+            description: "test",
+            price: 109,
+            publish_status: "Non publiée",
+            type: "Location",
+            transaction_status: "Disponible"
+        };
+
+        beforeEach(async () => {
+            await Ad.create(ad);
+        });
+
+        it('should not delete a non existing ad', async () => {
+            const query = `mutation {
+                deleteAd(id: "000000")
+            }`;
+
+            const { errors } = await graphql(AdGQL.schema, query, AdGQL.root);
+
+            assert.notEqual(errors.length, 0);
+        });
+
+        it('should delete an ad', async () => {
+            const insertedAd = await Ad.findOne({title: ad.title});
+
+            const query = `mutation {
+                deleteAd(id: "${insertedAd._id}")
+            }`;
+            
+            const { data } = await graphql(AdGQL.schema, query, AdGQL.root);
+            assert.equal(true, data.deleteAd);
+        });    
+    });
 });
