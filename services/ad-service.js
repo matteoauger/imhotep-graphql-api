@@ -24,6 +24,18 @@ class AdService {
 
         return Ad.find(query);
     }
+
+    insert(data) {
+        return Ad.create(data);
+    }
+
+    update(id, data) {
+        return Ad.findOneAndUpdate({_id: id}, data);
+    }
+
+    delete(id) {
+        return Ad.deleteOne({ _id: id });
+    }
 }
 
 module.exports = AdService;
