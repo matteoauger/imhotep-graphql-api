@@ -290,7 +290,7 @@ describe('GraphQL Ad schema & handlers', () => {
 
             const { errors } = await graphql(AdGQL.schema, query, AdGQL.root);
 
-            assert.notEqual(errors.length, 0);
+            assert.notEqual(errors, undefined);
         });
 
         it('should insert correctly', async () => {
@@ -342,7 +342,7 @@ describe('GraphQL Ad schema & handlers', () => {
 
             const { errors } = await graphql(AdGQL.schema, query, AdGQL.root);
 
-            assert.notEqual(errors.length, 0);
+            assert.notEqual(errors, undefined);
         });
 
         it('should update', async () => {
@@ -388,7 +388,7 @@ describe('GraphQL Ad schema & handlers', () => {
 
             const { errors } = await graphql(AdGQL.schema, query, AdGQL.root);
 
-            assert.notEqual(errors.length, 0);
+            assert.notEqual(errors, undefined);
         });
 
         it('should delete an ad', async () => {
