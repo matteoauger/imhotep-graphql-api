@@ -1,10 +1,10 @@
 const { Type, TransactionStatus, PublishStatus } = require('../models/ad');
-const { getKeyByValue } = require('../utils/object-util');
 
 /**
  * Service formatting the ad data to fit the graphql definition or the mongodb definition.
  */
 class AdDataService {
+    
     /**
      * Prepares the given query data to match mongoose definition.
      * @param {any} data graphql query input
@@ -48,20 +48,15 @@ class AdDataService {
      * @param {any} ads database ad array
      */
     prepareDataForGql(ads) {
-        const formatedAds = new Array();
-
-        ads.forEach(ad => {
-            formatedAds.push({
-                id: ad._id,
-                title: ad.title,
-                description: ad.description,
-                price: ad.price,
-                type: getKeyByValue(Type, ad.type),
-                transactionStatus: getKeyByValue(TransactionStatus, ad.transaction_status),
-                publishStatus: getKeyByValue(PublishStatus, ad.publish_status),
-            });
-        });
-
+        const formatedAds = ads.map(ad => ({
+            id: ad._id,
+            title: ad.title,
+            description: ad.description,
+            price: ad.price,
+            type: Type[ad.type],
+            transactionStatus: TransactionStatus[ad.transaction_status],
+            publishStatus: PublishStatus[ad.publish_status],
+        }));
         return formatedAds;
     }
 }
