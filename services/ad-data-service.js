@@ -59,6 +59,7 @@ class AdDataService {
                 type: getKeyByValue(Type, ad.type),
                 transactionStatus: getKeyByValue(TransactionStatus, ad.transaction_status),
                 publishStatus: getKeyByValue(PublishStatus, ad.publish_status),
+                questions: ad.questions
             });
         });
 
