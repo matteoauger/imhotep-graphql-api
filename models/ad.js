@@ -1,17 +1,18 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const Enumeration = require('../utils/enumeration');
 
-const Type = Object.freeze({
+const Type = new Enumeration({
     SALE: 'Vente',
     RENTAL: 'Location'
 });
 
-const PublishStatus = Object.freeze({
+const PublishStatus = new Enumeration({
     PUBLISHED: 'Publiée',
     UNPUBLISHED: 'Non publiée'
 });
 
-const TransactionStatus = Object.freeze({
+const TransactionStatus = new Enumeration({
     AVAILABLE: 'Disponible',
     NOT_AVAILABLE: 'Non disponible'
 });

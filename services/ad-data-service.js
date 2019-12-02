@@ -1,5 +1,4 @@
 const { Type, TransactionStatus, PublishStatus } = require('../models/ad');
-const { getKeyByValue } = require('../utils/object-util');
 
 /**
  * Service formatting the ad data to fit the graphql definition or the mongodb definition.
@@ -56,9 +55,9 @@ class AdDataService {
                 title: ad.title,
                 description: ad.description,
                 price: ad.price,
-                type: getKeyByValue(Type, ad.type),
-                transactionStatus: getKeyByValue(TransactionStatus, ad.transaction_status),
-                publishStatus: getKeyByValue(PublishStatus, ad.publish_status),
+                type: Type[ad.type],
+                transactionStatus: TransactionStatus[ad.transaction_status],
+                publishStatus: PublishStatus[ad.publish_status],
             });
         });
 
