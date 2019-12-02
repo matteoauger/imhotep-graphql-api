@@ -10,6 +10,7 @@ class AdService {
     }
 
     getAdsCheaperThan(price, inclusive) {
+        // TODO: Ad.find({ price: { `$lt${inclusive ? 'e': ''}`: price }});
         let query = { price: { $lt : price }};
         if (inclusive)
             query = { price : { $lte: price }};
@@ -18,6 +19,7 @@ class AdService {
     }
 
     getAdsMoreExpensiveThan(price, inclusive) {
+        // TODO: Ad.find({ price: { `$gt${inclusive ? 'e': ''}`: price }});
         let query = { price: { $gt : price }};
         if (inclusive)
             query = { price : { $gte: price }};

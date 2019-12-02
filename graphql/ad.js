@@ -44,6 +44,7 @@ class AdQueryHandler {
         const id = params._id;
         delete params._id;
 
+        // TODO: Use option { new: true } on update instead of call the getAd method and get the result.
         await this.adService.update(id, params);
         const updatedAd = await this.adService.getAd({_id: id});
 
@@ -65,6 +66,6 @@ const schemaTxt = fs.readFileSync(schemaPath,  {encoding: 'utf-8'});
 var schema = buildSchema(schemaTxt);
 
 module.exports = {
-    schema: schema,
+    schema: schema, // TODO: buildSchema direcly here.
     root: new AdQueryHandler()
 }
