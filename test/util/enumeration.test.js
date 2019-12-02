@@ -1,13 +1,13 @@
 const assert = require('assert');
 const Enumeration = require('../../utils/enumeration');
 
-describe('Enumeration class', function() {
+describe.only('Enumeration class', function() {
     it('should create a simple enumeration of string', function() {
         const object = {
             ON: 'on',
             OFF: 'off'
         };
-        const enu = new Enumeration(object);
+        const enu = new Enumeration(object, { reversable: false });
         assert.deepEqual(Object.entries(enu), Object.entries(object));
     });
     it('should create a simple enumeration of numbers', function() {
@@ -15,7 +15,7 @@ describe('Enumeration class', function() {
             ON: 0,
             OFF: 1
         };
-        const enu = new Enumeration(object);
+        const enu = new Enumeration(object, { reversable: false });
         assert.deepEqual(Object.entries(enu), Object.entries(object));
     });
     it('should create a reversable enumeration', function() {
@@ -23,7 +23,7 @@ describe('Enumeration class', function() {
             ON: 'on',
             OFF: 'off'
         };
-        const enu = new Enumeration(object, { reversable: true });
+        const enu = new Enumeration(object);
         assert.equal(enu.ON, 'on');
         assert.equal(enu.on, 'ON');
     });

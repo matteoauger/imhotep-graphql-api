@@ -5,7 +5,7 @@
  * @param {Options} options - enumeration options.
  * @returns {Enumeration}
  */
-function Enumeration(obj, options = {}) {
+function Enumeration(obj, { reversable = true } = {}) {
     const addProperties = (obj, enumerable) => {
         Object.entries(obj).forEach(([key, value]) => {
             if (this.hasOwnProperty(key)) {
@@ -20,7 +20,7 @@ function Enumeration(obj, options = {}) {
         });
     };
     addProperties(obj, true);
-    if (options.reversable) {
+    if (reversable) {
         addProperties(reverse(obj), false);
     }
     return Object.freeze(this);
@@ -60,7 +60,7 @@ function checkType(value) {
 /**
  * Enumeration options.
  * @typedef {object} Options
- * @property {boolean} [reversable=false] - if `true` adds a `fromValue` function.
+ * @property {boolean} [reversable=true] - if `true`, key can be resolved by value.
  */
 
 module.exports = Enumeration;
