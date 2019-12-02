@@ -4,6 +4,7 @@ const { Type, TransactionStatus, PublishStatus } = require('../models/ad');
  * Service formatting the ad data to fit the graphql definition or the mongodb definition.
  */
 class AdDataService {
+    
     /**
      * Prepares the given query data to match mongoose definition.
      * @param {any} data graphql query input
