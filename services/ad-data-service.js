@@ -47,20 +47,15 @@ class AdDataService {
      * @param {any} ads database ad array
      */
     prepareDataForGql(ads) {
-        const formatedAds = new Array();
-
-        ads.forEach(ad => {
-            formatedAds.push({
-                id: ad._id,
-                title: ad.title,
-                description: ad.description,
-                price: ad.price,
-                type: Type[ad.type],
-                transactionStatus: TransactionStatus[ad.transaction_status],
-                publishStatus: PublishStatus[ad.publish_status],
-            });
-        });
-
+        const formatedAds = ads.map(ad => ({
+            id: ad._id,
+            title: ad.title,
+            description: ad.description,
+            price: ad.price,
+            type: Type[ad.type],
+            transactionStatus: TransactionStatus[ad.transaction_status],
+            publishStatus: PublishStatus[ad.publish_status],
+        }));
         return formatedAds;
     }
 }
