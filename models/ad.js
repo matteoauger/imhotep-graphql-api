@@ -17,11 +17,11 @@ const TransactionStatus = Object.freeze({
 });
 
 const CommentSchema = new Schema({
-    user: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-        required: [true, 'L\'identifiant de l\'utilisateur est obligatoire']
-    },
+    // user: {
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'User',
+    //     required: [true, 'L\'identifiant de l\'utilisateur est obligatoire']
+    // },
     date: {
         type: Date,
         default: Date.now
@@ -33,6 +33,11 @@ const CommentSchema = new Schema({
         minlength: 2,
         maxlength: 2048
     }
+});
+
+const QuestionSchema = new Schema({
+    question: CommentSchema,
+    replies: [CommentSchema]
 });
 
 const AdSchema = new Schema({
@@ -67,12 +72,15 @@ const AdSchema = new Schema({
         type: Number,
         required: [true, 'Le prix est obligatoire'],
         min: 0
-    }
+    },
+    questions: [QuestionSchema]
 });
 
 module.exports = {
     Ad: mongoose.model('Ad', AdSchema),
     Type,
     PublishStatus,
-    TransactionStatus
+    TransactionStatus,
+    Question: QuestionSchema, 
+    Comment: CommentSchema
 };
