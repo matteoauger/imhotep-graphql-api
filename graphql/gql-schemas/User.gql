@@ -1,0 +1,39 @@
+# User type
+# Represents a user
+type Ad {
+    id: ID!
+    email: String!
+    firstname: String!
+    lastname: String!
+    password: String!
+    role_id: Int!
+}
+
+# User query type
+type Query {
+    # Queries the users with the given field values 
+    # id unique id of the user (database stored id)
+    # email email of the user
+    # firstname firstname of the user
+    # lastname lastname of the user
+    # password password of the user
+    # role_id of the user 
+    user(id: ID, email: String, firstname: String, lastname: String, role_id: Int): User
+}
+
+# User mutation
+type Mutation {
+    # Create an user
+    # email email of the user
+    # firstname firstname of the user
+    # lastname lastname of the user
+    # password password of the user
+    # role_id of the user
+    insertAd(email: String!, firstname: String!, lastname: String!, password: String!, role_id: Int!): User
+}
+
+# User schema
+schema {
+    query: Query
+    mutation: Mutation
+}
