@@ -1,8 +1,9 @@
 const fs = require('fs');
-const { buildSchema } = require('graphql');
+const { buildSchema, GraphQLScalarType } = require('graphql');
 const AdService = require('../services/ad-service');
 const AdDataService = require('../services/ad-data-service');
 const path = require('path');
+const gqlDate = require('./date');
 
 
 /**
@@ -13,6 +14,8 @@ class AdQueryHandler {
         this.adService = new AdService();
         this.adDataService = new AdDataService();
     }
+
+    Date = new GraphQLScalarType(gqlDate);
 
     async ad(data) {
         const params = this.adDataService.prepareDataForDb(data);
@@ -54,6 +57,26 @@ class AdQueryHandler {
     async deleteAd({ id }) {
         const response = await this.adService.delete(id);
         return response.ok  === 1 && response.deletedCount > 0;
+    }
+
+    async insertQuestion(data) {
+        const adId = data.adId;
+        const question = { 
+            question: data.question, 
+            replies: data.replies || [] 
+        };
+        
+        const ads = await this.adService.getAd({_id: adId});
+        const ad = ads[0];
+
+        if (!ad.questions) {
+            ad.questions = [];
+        }
+
+        ad.questions.push();
+        await this.adService.update(adId, ad);
+
+        return question;
     }
 }
 
