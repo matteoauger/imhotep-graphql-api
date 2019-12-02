@@ -61,10 +61,7 @@ class AdQueryHandler {
 const schemaPath = path.join(__dirname, 'gql-schemas', 'Ad.gql');
 const schemaTxt = fs.readFileSync(schemaPath,  {encoding: 'utf-8'});
 
-// Construct a schema, using GraphQL schema language
-var schema = buildSchema(schemaTxt);
-
 module.exports = {
-    schema: schema,
+    schema: buildSchema(schemaTxt),
     root: new AdQueryHandler()
 }

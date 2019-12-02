@@ -5,24 +5,19 @@ const Ad = AdSchema.Ad;
  * Service fetching and modifying data from the ad database.
  */
 class AdService {
+    
     getAd(data) {
         return Ad.find(data);
     }
 
     getAdsCheaperThan(price, inclusive) {
-        let query = { price: { $lt : price }};
-        if (inclusive)
-            query = { price : { $lte: price }};
-
-        return Ad.find(query);
+        const lower = inclusive ? '$lte' : '$lt';
+        return Ad.find({ price: { [lower]: price }});
     }
 
     getAdsMoreExpensiveThan(price, inclusive) {
-        let query = { price: { $gt : price }};
-        if (inclusive)
-            query = { price : { $gte: price }};
-
-        return Ad.find(query);
+        const greater = inclusive ? '$gte' : '$gt'; 
+        return Ad.find({ price: { [greater] : price }});
     }
 
     insert(data) {
