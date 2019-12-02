@@ -1,6 +1,6 @@
 # User type
 # Represents a user
-type Ad {
+type User {
     id: ID!
     email: String!
     firstname: String!
@@ -18,18 +18,18 @@ type Query {
     # lastname lastname of the user
     # password password of the user
     # role_id of the user 
-    user(id: ID, email: String, firstname: String, lastname: String, role_id: Int): User
+    user(id: ID, email: String, firstname: String, lastname: String, roleId: String): [User]
 }
 
 # User mutation
 type Mutation {
-    # Create an user
+    # Register a user
     # email email of the user
     # firstname firstname of the user
     # lastname lastname of the user
     # password password of the user
     # role_id of the user
-    insertAd(email: String!, firstname: String!, lastname: String!, password: String!, role_id: Int!): User
+    register(email: String!, firstname: String!, lastname: String!, password: String!, roleId: String): User
 }
 
 # User schema
