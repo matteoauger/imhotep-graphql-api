@@ -1,3 +1,6 @@
+# Date scalar type
+scalar Date
+
 # Ad type
 # Represents a real estate ad
 type Ad {
@@ -8,6 +11,7 @@ type Ad {
     type: Type!
     transactionStatus: TransactionStatus!
     publishStatus: PublishStatus!
+    questions: [Question]
 }
 
 # Transaction statuses
@@ -26,6 +30,24 @@ enum PublishStatus {
 enum Type {
     SALE
     RENTAL
+}
+
+type Question {
+    question: Comment!
+    replies: [Comment]
+}
+
+type Comment {
+    id: ID!
+    # user: ID!
+    date: Date!
+    text: String!
+}
+
+input CommentInput {
+    text: String!
+    date: Date
+    id: ID
 }
 
 # Ad query type
@@ -73,6 +95,10 @@ type Mutation {
     # id id of the ad to delete
     # return whether the ad was successfully deleted
     deleteAd(id: ID!): Boolean
+
+    insertQuestion(adId: ID!, question: CommentInput!, replies: [CommentInput]): Question
+    # updateQuestion(question: Question!): Question
+    # deleteQuestion(id: ID!): Boolean
 }
 
 # Ad schema
