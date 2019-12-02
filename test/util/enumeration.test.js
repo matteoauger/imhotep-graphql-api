@@ -1,7 +1,7 @@
 const assert = require('assert');
 const Enumeration = require('../../utils/enumeration');
 
-describe.only('Enumeration class', function() {
+describe('Enumeration class', function() {
     it('should create a simple enumeration of string', function() {
         const object = {
             ON: 'on',
