@@ -28,13 +28,26 @@ type Query {
 
 # User mutation
 type Mutation {
-    # Register a user
+    # Create a user
     # email email of the user
     # firstname firstname of the user
     # lastname lastname of the user
     # password password of the user
     # role role of the user
-    register(email: String!, firstname: String!, lastname: String!, password: String!, role: Role!): User
+    insertUser(email: String!, firstname: String!, lastname: String!, password: String!, role: Role!): User
+
+    # Update a user
+    # id id of the user in DB
+    # email email of the user
+    # firstname firstname of the user
+    # lastname lastname of the user
+    # password password of the user
+    # role role of the user
+    updateUser(id: ID!, email: String, firstname: String, lastname: String, password: String, role: Role): User
+
+    # Delete a user
+    # id id of the user in DB
+    deleteUser(id: ID!): Boolean
 }
 
 # User schema

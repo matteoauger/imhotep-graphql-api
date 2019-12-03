@@ -44,11 +44,9 @@ class AdQueryHandler {
         const id = params._id;
         delete params._id;
 
-        // TODO: Use option { new: true } on update instead of call the getAd method and get the result.
-        await this.adService.update(id, params);
-        const updatedAd = await this.adService.getAd({_id: id});
+        const updatedAd = await this.adService.update(id, params, { new: true });
 
-        const result =  this.adDataService.prepareDataForGql( updatedAd );
+        const result = this.adDataService.prepareDataForGql([updatedAd]);
         return result[0];
     }
 

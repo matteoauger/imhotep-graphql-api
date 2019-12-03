@@ -5,6 +5,8 @@ const UserDataService = require('../services/user-data-service');
 const path = require('path');
 const bcrypt = require('bcrypt');
 
+const HASH_ROUNDS = 10;
+
 class UserQueryHandler {
     constructor() {
         this.userService = new UserService();
@@ -18,13 +20,31 @@ class UserQueryHandler {
         return this.userDataService.prepareDataForGql(users);
     }
 
-    async register(data) {
-        data.password = bcrypt.hashSync(data.password, 10);
+    async insertUser(data) {
+        data.password = bcrypt.hashSync(data.password, HASH_ROUNDS);
         const params = this.userDataService.prepareDataForDb(data);
         const newUser = await this.userService.insert(params);
         const result = this.userDataService.prepareDataForGql([ newUser ]);
 
         return result[0];
+    }
+
+    async updateUser(data) {
+        const params = this.userDataService.prepareDataForDb(data);
+        const id = params._id;
+        delete params._id;
+        if (params.password) {
+            params.password = bcrypt.hashSync(params.password, HASH_ROUNDS);
+        }
+        const updatedAd = await this.userService.update(id, params, { new: true });
+
+        const result = this.userDataService.prepareDataForGql([updatedAd]);
+        return result[0];
+    }
+
+    async deleteUser({ email }) {
+        const response = await this.userService.delete(email);
+        return response.ok  === 1 && response.deletedCount > 0;
     }
 }
 

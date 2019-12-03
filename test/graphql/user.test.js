@@ -95,4 +95,42 @@ describe('GraphQL User schema & handlers', () => {
             assert.equal(user.role, expectedUser.role);
         });
     });
+    describe('User removal', () => {
+        let user = null;
+
+        before(() => {
+            user = {
+                email: "dzqdqzd@gmail.com",
+                firstname: "fn",
+                lastname: "ln",
+                password: "123456",
+                role: Role.USER
+            };
+        });
+
+        beforeEach(async () => {
+            await User.create(user);
+        });
+
+        it('should not delete a non existing user', async () => {
+            const query = `mutation {
+                deleteUser(id: "000000")
+            }`;
+
+            const { errors } = await graphql(UserGQL.schema, query, UserGQL.root);
+
+            assert.notEqual(errors, undefined);
+        });
+
+        it('should delete an user', async () => {
+            const insertedUser = await User.findOne({email: email.email});
+
+            const query = `mutation {
+                deleteUser(id: "${insertedUser._id}")
+            }`;
+            
+            const { data } = await graphql(UserGQL.schema, query, UserGQL.root);
+            assert.equal(true, data.deleteUser);
+        });    
+    });
 });
