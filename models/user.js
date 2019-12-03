@@ -1,7 +1,15 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const Enumeration = require('../utils/enumeration');
 
 const EMAIL_REGEXP = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+
+const Role = new Enumeration({
+    ADMIN: 0,
+    AGENT: 1,
+    USER: 2
+});
 
 const UserSchema = new Schema({
     email: {
@@ -34,4 +42,7 @@ const UserSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = {
+    User: mongoose.model('User', UserSchema),
+    Role
+};
