@@ -81,6 +81,6 @@ module.exports = {
     Type,
     PublishStatus,
     TransactionStatus,
-    Question: QuestionSchema, 
+    Question: mongoose.model('Question', QuestionSchema), 
     Comment: CommentSchema
 };
