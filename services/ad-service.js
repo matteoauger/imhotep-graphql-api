@@ -1,5 +1,6 @@
 const AdSchema = require('../models/ad');
 const Ad = AdSchema.Ad;
+const Question = AdSchema.Question;
 
 /**
  * Service fetching and modifying data from the ad database.
@@ -30,11 +31,20 @@ class AdService {
     }
 
     update(id, data) {
-        return Ad.updateOne({_id: id}, data);
+        return Ad.findOneAndUpdate({_id: id}, data, { useFindAndModify: true, returnNewDocument: true });
     }
 
     delete(id) {
         return Ad.deleteOne({ _id: id });
+    }
+
+    updateQuestion(id, data) {
+        return Question.findById(id);
+        //return Question.findOneAndUpdate({_id: id }, data, { useFindAndModify: true, returnNewDocument: true });
+    }
+
+    deleteQuestion(id) {
+        return Question.deleteOne({_id: id});
     }
 }
 
