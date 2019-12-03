@@ -6,7 +6,7 @@ const User = UserSchema.User;
  */
 class UserService {
 
-    getUser(data) {
+    getUsers(data) {
         return User.find(data);
     }
 
