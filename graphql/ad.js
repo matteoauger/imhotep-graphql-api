@@ -69,14 +69,40 @@ class AdQueryHandler {
         const ads = await this.adService.getAd({_id: adId});
         const ad = ads[0];
 
+        if (!ad) {
+            throw new Error("Ad doesn't exist");
+        }
+
         if (!ad.questions) {
             ad.questions = [];
         }
 
-        ad.questions.push();
-        await this.adService.update(adId, ad);
+        ad.questions.push(question);
+        const updatedAd = await this.adService.update(adId, ad);
 
-        return question;
+        return updatedAd.questions[updatedAd.questions.length - 1];
+    }
+
+    async updateQuestion(data) {
+        const questionId = data.questionId;
+        const question = {};
+
+        if (data.question) {
+            question.question = data.question;
+        }
+
+        if (data.replies) {
+            question.replies = data.replies;
+        }
+        
+        const res = await this.adService.updateQuestion(questionId, question);
+        return res;
+    }
+
+    async deleteQuestion({ questionId }) {
+        const response = await this.adService.deleteQuestion(questionId);
+
+        return response.ok  === 1 && response.deletedCount > 0;
     }
 }
 
