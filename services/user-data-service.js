@@ -11,20 +11,10 @@ class UserDataService {
      */
     prepareDataForDb(data) {
         const dataCpy = Object.assign({}, data);
-
-        if (data.role !== undefined) {
-            if (Role[data.role] === undefined) {
-                throw new Error(`${data.role} is not a valid type.`);
-            }
-            dataCpy.role_id = Role[data.role];
-            delete dataCpy.role_id;
-        }
-
         if (data.id) {
             dataCpy._id = data.id;
             delete dataCpy.id;
         }
-
         return dataCpy;
     }
 
@@ -38,7 +28,7 @@ class UserDataService {
             email: user.email,
             firstname: user.firstname,
             lastname: user.lastname,
-            role: Role[user.role_id] 
+            role: user.role
         }));
         return formatedUsers;
     }

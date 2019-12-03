@@ -6,10 +6,10 @@ const EMAIL_REGEXP = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+
 
 
 const Role = new Enumeration({
-    ADMIN: 0,
-    AGENT: 1,
-    USER: 2
-});
+    ADMIN: 'ADMIN',
+    REAL_ESTATE: 'REAL_ESTATE',
+    USER: 'USER'
+}, { reversable: false });
 
 const UserSchema = new Schema({
     email: {
@@ -36,8 +36,9 @@ const UserSchema = new Schema({
         type: String,
         required: [true, 'Le mot de passe doit être compris entre 8 et 32 caractères']
     },
-    role_id: {
-        type: Number,
+    role: {
+        type: String,
+        enum: Object.keys(Role),
         required: [true, 'Le rôle est obligatoire'],
     }
 });

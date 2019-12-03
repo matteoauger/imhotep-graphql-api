@@ -10,7 +10,7 @@ type User {
 
 enum Role {
     ADMIN
-    AGENT
+    REAL_ESTATE
     USER
 }
 
