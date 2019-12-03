@@ -15,7 +15,7 @@ class UserService {
     }
 
     update(id, data) {
-        return User.updateOne({ _id: id }, data);
+        return User.updateOne({ _id: id }, data, { new: true });
     }
 
     delete(id) {

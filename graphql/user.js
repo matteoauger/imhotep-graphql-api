@@ -36,7 +36,7 @@ class UserQueryHandler {
         if (params.password) {
             params.password = bcrypt.hashSync(params.password, HASH_ROUNDS);
         }
-        const updatedAd = await this.userService.update(id, params, { new: true });
+        const updatedAd = await this.userService.update(id, params);
 
         const result = this.userDataService.prepareDataForGql([updatedAd]);
         return result[0];

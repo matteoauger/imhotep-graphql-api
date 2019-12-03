@@ -25,7 +25,7 @@ class AdService {
     }
 
     update(id, data) {
-        return Ad.updateOne({_id: id}, data);
+        return Ad.updateOne({_id: id}, data, { new: true });
     }
 
     delete(id) {
