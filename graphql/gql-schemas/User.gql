@@ -6,7 +6,13 @@ type User {
     firstname: String!
     lastname: String!
     password: String!
-    role_id: Int!
+    role: Role!
+}
+
+enum Role {
+    ADMIN
+    AGENT
+    USER
 }
 
 # User query type
@@ -17,8 +23,8 @@ type Query {
     # firstname firstname of the user
     # lastname lastname of the user
     # password password of the user
-    # role_id of the user 
-    user(id: ID, email: String, firstname: String, lastname: String, roleId: String): [User]
+    # role role of the user 
+    user(id: ID, email: String, firstname: String, lastname: String, role: Role): [User]
 }
 
 # User mutation
@@ -28,8 +34,8 @@ type Mutation {
     # firstname firstname of the user
     # lastname lastname of the user
     # password password of the user
-    # role_id of the user
-    register(email: String!, firstname: String!, lastname: String!, password: String!, roleId: String): User
+    # role role of the user
+    register(email: String!, firstname: String!, lastname: String!, password: String!, role: Role!): User
 }
 
 # User schema
