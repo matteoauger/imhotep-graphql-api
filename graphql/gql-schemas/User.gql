@@ -5,7 +5,6 @@ type User {
     email: String!
     firstname: String!
     lastname: String!
-    password: String!
     role: Role!
 }
 
