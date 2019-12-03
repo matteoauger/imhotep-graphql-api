@@ -12,9 +12,9 @@ class UserQueryHandler {
 
     async user(data) {
         const params = this.userDataService.prepareDataForDb(data);
-        const ads = await this.userService.getAd(params);
-
-        return this.userDataService.prepareDataForGql(ads);
+        const users = await this.userService.getUser(params);
+        
+        return this.userDataService.prepareDataForGql(users);
     }
 
     async register(data) {
