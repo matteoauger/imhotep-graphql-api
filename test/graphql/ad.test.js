@@ -58,20 +58,17 @@ describe('GraphQL Ad schema & handlers', () => {
 
         it('should not return anything', async () => {
             // inserting the test ad
-            const expectedType = "SALE";
-            const expectedPublishStatus = "PUBLISHED";
-            const expectedTransactionStatus = "AVAILABLE";
-            const expectedAd = {title: "test", description: "test", type: Type[expectedType], price: 20000, transaction_status: TransactionStatus[expectedTransactionStatus], publish_status: PublishStatus[expectedPublishStatus]};
+            const expectedAd = {title: "test", description: "test", type: Type.SALE, price: 20000, transaction_status: TransactionStatus.AVAILABLE, publish_status: PublishStatus.PUBLISHED };
             await Ad.insertMany([expectedAd]);
             
             const query = `{
-                ad(title: "test2", description: "test", transactionStatus: AVAILABLE) {
+                ad(title: "test2", description: "test", transaction_status: AVAILABLE) {
                     title,
                     description,
                     type,
                     price,
-                    transactionStatus,
-                    publishStatus
+                    transaction_status,
+                    publish_status
                 }
             }`;
 
@@ -82,8 +79,7 @@ describe('GraphQL Ad schema & handlers', () => {
 
         it('should return expected data', async () => {
             // inserting the test ad
-            const expectedType = "SALE";
-            const expectedAd = {title: "test", description: "test", type: Type[expectedType], price: 20000, transaction_status: "Disponible", publish_status: "Publiée"};
+            const expectedAd = { title: "test", description: "test", type: Type.SALE, price: 20000, transaction_status: TransactionStatus.AVAILABLE, publish_status: PublishStatus.PUBLISHED };
             await Ad.insertMany([expectedAd]);
             
             const query = `{
@@ -100,27 +96,24 @@ describe('GraphQL Ad schema & handlers', () => {
 
             assert.equal(resultAd.title, expectedAd.title);
             assert.equal(resultAd.description, expectedAd.description);
-            assert.equal(resultAd.type, expectedType);
+            assert.equal(resultAd.type, expectedAd.type);
             assert.equal(resultAd.price, expectedAd.price);
-            assert.equal(resultAd.transactionStatus, undefined);
+            assert.equal(resultAd.transaction_status, undefined);
         });
 
         it('should return expected data', async () => {
             // inserting the test ad
-            const expectedType = "SALE";
-            const expectedPublishStatus = "PUBLISHED";
-            const expectedTransactionStatus = "AVAILABLE";
-            const expectedAd = {title: "test", description: "test", type: Type[expectedType], price: 20000, transaction_status: TransactionStatus[expectedTransactionStatus], publish_status: PublishStatus[expectedPublishStatus]};
+            const expectedAd = {title: "test", description: "test", type: Type.SALE, price: 20000, transaction_status: TransactionStatus.AVAILABLE, publish_status: PublishStatus.PUBLISHED };
             await Ad.insertMany([expectedAd]);
             
             const query = `{
-                ad(title: "test", description: "test", transactionStatus: AVAILABLE) {
+                ad(title: "test", description: "test", transaction_status: AVAILABLE) {
                     title,
                     description,
                     type,
                     price,
-                    transactionStatus,
-                    publishStatus
+                    transaction_status,
+                    publish_status
                 }
             }`;
 
@@ -129,10 +122,10 @@ describe('GraphQL Ad schema & handlers', () => {
 
             assert.equal(resultAd.title, expectedAd.title);
             assert.equal(resultAd.description, expectedAd.description);
-            assert.equal(resultAd.type, expectedType);
+            assert.equal(resultAd.type, expectedAd.type);
             assert.equal(resultAd.price, expectedAd.price);
-            assert.equal(resultAd.transactionStatus, expectedTransactionStatus);
-            assert.equal(resultAd.publishStatus, expectedPublishStatus);
+            assert.equal(resultAd.transaction_status, expectedAd.transaction_status);
+            assert.equal(resultAd.publish_status, expectedAd.publish_status);
         });
     });
 
@@ -143,8 +136,8 @@ describe('GraphQL Ad schema & handlers', () => {
                   id
                   title,
                   type,
-                  publishStatus,
-                  transactionStatus,
+                  publish_status,
+                  transaction_status,
                   price,
                   description
                 }
@@ -157,8 +150,8 @@ describe('GraphQL Ad schema & handlers', () => {
 
         it('should return the items cheaper than 200€', async () => {
             const ads = [
-                {title: "test", description: "test", type: "Vente", price: 200, transaction_status: "Disponible", publish_status: "Publiée"},
-                {title: "test2", description: "test2", type: "Location", price: 1000, transaction_status: "Non disponible", publish_status: "Non publiée"}
+                { title: "test", description: "test", type: Type.SALE, price: 200, transaction_status: TransactionStatus.AVAILABLE, publish_status: PublishStatus.PUBLISHED },
+                { title: "test2", description: "test2", type: Type.RENTAL, price: 1000, transaction_status: TransactionStatus.NOT_AVAILABLE, publish_status: PublishStatus.UNPUBLISHED }
             ];
 
             await Ad.insertMany(ads);
@@ -168,8 +161,8 @@ describe('GraphQL Ad schema & handlers', () => {
                   id
                   title,
                   type,
-                  publishStatus,
-                  transactionStatus,
+                  publish_status,
+                  transaction_status,
                   price,
                   description
                 }
@@ -182,8 +175,8 @@ describe('GraphQL Ad schema & handlers', () => {
 
         it('should return the items cheaper than 200€ (inclusive)', async () => {
             const ads = [
-                {title: "test", description: "test", type: "Vente", price: 200, transaction_status: "Disponible", publish_status: "Publiée"},
-                {title: "test2", description: "test2", type: "Location", price: 1000, transaction_status: "Non disponible", publish_status: "Non publiée"}
+                { title: "test", description: "test", type: Type.SALE, price: 200, transaction_status: TransactionStatus.AVAILABLE, publish_status: PublishStatus.PUBLISHED },
+                { title: "test2", description: "test2", type: Type.RENTAL, price: 1000, transaction_status: TransactionStatus.NOT_AVAILABLE, publish_status: PublishStatus.UNPUBLISHED }
             ];
 
             await Ad.insertMany(ads);
@@ -193,8 +186,8 @@ describe('GraphQL Ad schema & handlers', () => {
                   id
                   title,
                   type,
-                  publishStatus,
-                  transactionStatus,
+                  publish_status,
+                  transaction_status,
                   price,
                   description
                 }
@@ -214,8 +207,8 @@ describe('GraphQL Ad schema & handlers', () => {
                   id
                   title,
                   type,
-                  publishStatus,
-                  transactionStatus,
+                  publish_status,
+                  transaction_status,
                   price,
                   description
                 }
@@ -228,8 +221,8 @@ describe('GraphQL Ad schema & handlers', () => {
 
         it('should return the items more expensive than 200€', async () => {
             const ads = [
-                {title: "test", description: "test", type: "Vente", price: 200, transaction_status: "Disponible", publish_status: "Publiée"},
-                {title: "test2", description: "test2", type: "Location", price: 1000, transaction_status: "Non disponible", publish_status: "Non publiée"}
+                { title: "test", description: "test", type: Type.SALE, price: 200, transaction_status: TransactionStatus.AVAILABLE, publish_status: PublishStatus.PUBLISHED },
+                { title: "test2", description: "test2", type: Type.RENTAL, price: 1000, transaction_status: TransactionStatus.NOT_AVAILABLE, publish_status: PublishStatus.UNPUBLISHED }
             ];
 
             await Ad.insertMany(ads);
@@ -239,8 +232,8 @@ describe('GraphQL Ad schema & handlers', () => {
                   id
                   title,
                   type,
-                  publishStatus,
-                  transactionStatus,
+                  publish_status,
+                  transaction_status,
                   price,
                   description
                 }
@@ -253,8 +246,8 @@ describe('GraphQL Ad schema & handlers', () => {
 
         it('should return the items more expensive than 200€ (inclusive)', async () => {
             const ads = [
-                {title: "test", description: "test", type: "Vente", price: 200, transaction_status: "Disponible", publish_status: "Publiée"},
-                {title: "test2", description: "test2", type: "Location", price: 1000, transaction_status: "Non disponible", publish_status: "Non publiée"}
+                { title: "test", description: "test", type: Type.SALE, price: 200, transaction_status: TransactionStatus.AVAILABLE, publish_status: PublishStatus.PUBLISHED },
+                { title: "test2", description: "test2", type: Type.RENTAL, price: 1000, transaction_status: TransactionStatus.NOT_AVAILABLE, publish_status: PublishStatus.UNPUBLISHED }
             ];
 
             await Ad.insertMany(ads);
@@ -264,8 +257,8 @@ describe('GraphQL Ad schema & handlers', () => {
                   id
                   title,
                   type,
-                  publishStatus,
-                  transactionStatus,
+                  publish_status,
+                  transaction_status,
                   price,
                   description
                 }
@@ -295,12 +288,12 @@ describe('GraphQL Ad schema & handlers', () => {
 
         it('should insert correctly', async () => {
             const query = `mutation {
-                insertAd(title: "test", description: "test", type: SALE, publishStatus: PUBLISHED, price: 1000, transactionStatus: AVAILABLE) {
+                insertAd(title: "test", description: "test", type: SALE, publish_status: PUBLISHED, price: 1000, transaction_status: AVAILABLE) {
                     id, 
                     title, 
                     type,
-                    publishStatus,
-                    transactionStatus,
+                    publish_status,
+                    transaction_status,
                     description,
                     price
                 }
@@ -308,25 +301,29 @@ describe('GraphQL Ad schema & handlers', () => {
 
             const { data } = await graphql(AdGQL.schema, query, AdGQL.root);
 
-            const insertedAd = await Ad.findOne({title: "test"});
+            const insertedAd = await Ad.findOne({ title: "test" });
             assert.equal(data.insertAd.id, insertedAd._id);
             assert.equal(data.insertAd.title, insertedAd.title);
             assert.equal(data.insertAd.description, insertedAd.description);
-            assert.equal(data.insertAd.publishStatus, "PUBLISHED");
-            assert.equal(data.insertAd.transactionStatus, "AVAILABLE");
+            assert.equal(data.insertAd.publish_status, PublishStatus.PUBLISHED);
+            assert.equal(data.insertAd.transaction_status, TransactionStatus.AVAILABLE);
             assert.equal(data.insertAd.price, insertedAd.price);
         });
     });
 
     describe('Ad update', () => {
-        const ad = {
-            title: "test",
-            description: "test",
-            price: 109,
-            publish_status: "Non publiée",
-            type: "Location",
-            transaction_status: "Disponible"
-        };
+        let ad = null; 
+
+        before(() => {
+            ad = {
+                title: "test",
+                description: "test",
+                price: 109,
+                publish_status: PublishStatus.UNPUBLISHED,
+                type: Type.RENTAL,
+                transaction_status: TransactionStatus.AVAILABLE
+            };
+        });
 
         beforeEach(async () => {
             await Ad.create(ad);
@@ -353,7 +350,7 @@ describe('GraphQL Ad schema & handlers', () => {
                 updateAd(id: "${insertedAd._id}", title: "test2") {
                     title,
                     description,
-                    publishStatus,
+                    publish_status,
                     price
                 }
             }`;
@@ -363,19 +360,23 @@ describe('GraphQL Ad schema & handlers', () => {
             assert.equal("test2", data.updateAd.title);
             assert.equal(ad.description, data.updateAd.description);
             assert.equal(ad.price, data.updateAd.price);
-            assert.equal("UNPUBLISHED", data.updateAd.publishStatus);
+            assert.equal(PublishStatus.UNPUBLISHED, data.updateAd.publish_status);
         });
     });
 
     describe('Ad removal', () => {
-        const ad = {
-            title: "test",
-            description: "test",
-            price: 109,
-            publish_status: "Non publiée",
-            type: "Location",
-            transaction_status: "Disponible"
-        };
+        let ad = null; 
+
+        before(() => {
+            ad = {
+                title: "test",
+                description: "test",
+                price: 109,
+                publish_status: PublishStatus.UNPUBLISHED,
+                type: Type.RENTAL,
+                transaction_status: TransactionStatus.AVAILABLE
+            };
+        });
 
         beforeEach(async () => {
             await Ad.create(ad);

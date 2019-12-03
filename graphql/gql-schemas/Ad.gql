@@ -6,8 +6,8 @@ type Ad {
     description: String!
     price: Int!
     type: Type!
-    transactionStatus: TransactionStatus!
-    publishStatus: PublishStatus!
+    transaction_status: TransactionStatus!
+    publish_status: PublishStatus!
 }
 
 # Transaction statuses
@@ -35,10 +35,10 @@ type Query {
     # title title of the ad
     # description description of the ad
     # type type of the ad
-    # transactionStatus transaction status of the ad
+    # transaction_status transaction status of the ad
     # publishStatus publication status of the ad
     # price price of the ad 
-    ad(id: ID, title: String, description: String, type: Type, transactionStatus: TransactionStatus, publishStatus: PublishStatus, price: Int): [Ad]
+    ad(id: ID, title: String, description: String, type: Type, transaction_status: TransactionStatus, publish_status: PublishStatus, price: Int): [Ad]
 
     # Queries the ads cheaper than the given price
     # If the inclusive param is set to true, allows the ad price to be cheaper or equal than the given price
@@ -55,10 +55,10 @@ type Mutation {
     # title title of the ad
     # description description of the ad
     # type type of the ad
-    # transactionStatus transaction status of the ad
+    # transaction_status transaction status of the ad
     # publishStatus publish status of the ad
     # price price of the ad
-    insertAd(title: String!, description: String!, type: Type!, transactionStatus: TransactionStatus!, publishStatus: PublishStatus!, price: Int!): Ad
+    insertAd(title: String!, description: String!, type: Type!, transaction_status: TransactionStatus!, publish_status: PublishStatus!, price: Int!): Ad
 
     # Updates an ad
     # title title of the ad
@@ -67,7 +67,7 @@ type Mutation {
     # transactionStatus transaction status of the ad
     # publishStatus publish status of the ad
     # price price of the ad
-    updateAd(id: ID!, title: String, description: String, type: Type, transactionStatus: TransactionStatus, publishStatus: PublishStatus, price: Int): Ad
+    updateAd(id: ID!, title: String, description: String, type: Type, transaction_status: TransactionStatus, publish_status: PublishStatus, price: Int): Ad
     
     # Deletes an ad
     # id id of the ad to delete
