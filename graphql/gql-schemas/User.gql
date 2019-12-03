@@ -1,0 +1,44 @@
+# User type
+# Represents a user
+type User {
+    id: ID!
+    email: String!
+    firstname: String!
+    lastname: String!
+    role: Role!
+}
+
+enum Role {
+    ADMIN
+    REAL_ESTATE
+    USER
+}
+
+# User query type
+type Query {
+    # Queries the users with the given field values 
+    # id unique id of the user (database stored id)
+    # email email of the user
+    # firstname firstname of the user
+    # lastname lastname of the user
+    # password password of the user
+    # role role of the user 
+    user(id: ID, email: String, firstname: String, lastname: String, role: Role): [User]
+}
+
+# User mutation
+type Mutation {
+    # Register a user
+    # email email of the user
+    # firstname firstname of the user
+    # lastname lastname of the user
+    # password password of the user
+    # role role of the user
+    register(email: String!, firstname: String!, lastname: String!, password: String!, role: Role!): User
+}
+
+# User schema
+schema {
+    query: Query
+    mutation: Mutation
+}

@@ -5,6 +5,7 @@ const logger = require('morgan');
 
 const graphqlHTTP = require('express-graphql');
 const AdGraphQL = require('./graphql/ad');
+const UserGraphQL = require('./graphql/user');
 
 const app = express();
 
@@ -19,8 +20,17 @@ app.use(
   graphqlHTTP({
     schema: AdGraphQL.schema,
     rootValue: AdGraphQL.root,
-    graphiql: true,
-  }),
+    graphiql: process.env.NODE_ENV === 'development',
+  })
+);
+// setting up graphql user schema
+app.use(
+  '/users',
+  graphqlHTTP({
+    schema: UserGraphQL.schema,
+    rootValue: UserGraphQL.root,
+    graphiql: process.env.NODE_ENV === 'development'
+  })
 );
 
 // catch 404 and forward to error handler
