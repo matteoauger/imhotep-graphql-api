@@ -33,12 +33,12 @@ enum Type {
 }
 
 type Question {
+    id: ID!
     question: Comment!
     replies: [Comment]
 }
 
 type Comment {
-    id: ID!
     # user: ID!
     date: Date!
     text: String!
@@ -97,8 +97,8 @@ type Mutation {
     deleteAd(id: ID!): Boolean
 
     insertQuestion(adId: ID!, question: CommentInput!, replies: [CommentInput]): Question
-    # updateQuestion(question: Question!): Question
-    # deleteQuestion(id: ID!): Boolean
+    updateQuestion(questionId: ID!, question: CommentInput, replies: [CommentInput]): Question
+    deleteQuestion(questionId: ID!): Boolean
 }
 
 # Ad schema
