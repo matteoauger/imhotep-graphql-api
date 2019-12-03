@@ -1,4 +1,3 @@
-const { Type, TransactionStatus, PublishStatus } = require('../models/ad');
 
 /**
  * Service formatting the ad data to fit the graphql definition or the mongodb definition.
@@ -11,35 +10,10 @@ class AdDataService {
      */
     prepareDataForDb(data) {
         const dataCpy = Object.assign({}, data);
-
-        if (data.type) {
-            if (!Type[data.type])
-                throw Error(`${data.type} is not a valid type. This problem is related to the database, please contact an administrator.`);
-
-            dataCpy.type = Type[data.type];
-        }
-
-        if (data.transactionStatus) {
-            if (!TransactionStatus[data.transactionStatus])
-                throw Error(`${data.transactionStatus} is not a valid transaction status. This problem is related to the database, please contact an administrator.`);
-
-            dataCpy.transaction_status = TransactionStatus[data.transactionStatus];
-            delete dataCpy.transactionStatus;
-        }
-
-        if (data.publishStatus) {
-            if (!PublishStatus[data.publishStatus])
-                throw Error(`${data.publishStatus} is not a valid publish status. This problem is related to the database, please contact an administrator.`);
-
-            dataCpy.publish_status = PublishStatus[dataCpy.publishStatus];
-            delete dataCpy.publishStatus;
-        }
-
         if (data.id) {
             dataCpy._id = data.id;
             delete dataCpy.id;
         }
-
         return dataCpy;
     }
 
@@ -53,9 +27,9 @@ class AdDataService {
             title: ad.title,
             description: ad.description,
             price: ad.price,
-            type: Type[ad.type],
-            transactionStatus: TransactionStatus[ad.transaction_status],
-            publishStatus: PublishStatus[ad.publish_status],
+            type: ad.type,
+            transaction_status: ad.transaction_status,
+            publish_status: ad.publish_status,
         }));
         return formatedAds;
     }
