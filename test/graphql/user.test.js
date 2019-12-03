@@ -95,6 +95,7 @@ describe('GraphQL User schema & handlers', () => {
             assert.equal(user.role, expectedUser.role);
         });
     });
+
     describe('User removal', () => {
         let user = null;
 
@@ -123,7 +124,7 @@ describe('GraphQL User schema & handlers', () => {
         });
 
         it('should delete an user', async () => {
-            const insertedUser = await User.findOne({email: email.email});
+            const insertedUser = await User.findOne({email: user.email});
 
             const query = `mutation {
                 deleteUser(id: "${insertedUser._id}")
